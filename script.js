@@ -40,14 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.getElementById('taskForm').addEventListener('submit', function (e) {
   e.preventDefault();
-  const studentId = document.getElementById('studentId').value;
   const task = document.getElementById('task').value;
   const date = document.getElementById('date').value;
   const time = document.getElementById('time').value;
 
   const dateTime = `${date}T${time}`;
   calendar.addEvent({
-    title: `${task} (${studentId})`,
+    title: task,
     start: dateTime
   });
 
