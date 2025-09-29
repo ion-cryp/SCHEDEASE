@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedease - Smart Student Scheduler</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Schedease</h1>
+    <button id="historyBtn" class="history-btn">📜 History</button>
+  </nav>
+
+  <main class="container">
+    <section class="card add-task">
+      <h2>➕ Add Task</h2>
+      <form id="taskForm">
+        <input type="text" id="studentId" placeholder="Student Name" required>
+        <input type="text" id="task" placeholder="Task Description" required>
+        <div class="date-time">
+          <input type="date" id="date" required>
+          <input type="time" id="time" required>
+        </div>
+        <button type="submit">Add Task</button>
+      </form>
+    </section>
+
+    <div class="dashboard">
+      <section class="card calendar-sec">
+        <h2>📅 Calendar View</h2>
+        <div id="calendar"></div>
+      </section>
+
+      <section class="side-panel">
+        <div class="card">
+          <h2>📋 Task List</h2>
+          <div class="task-sections">
+            <h3>Today</h3>
+            <ul id="todayList"></ul>
+            <h3>Upcoming</h3>
+            <ul id="upcomingList"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="historyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeHistory">&times;</span>
+      <h2>📜 Task History</h2>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Saved!</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
