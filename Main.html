@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchedEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="app">
+        <header class="topbar glass">
+            <div class="brand">
+                <svg viewBox="0 0 24 24" class="logo" aria-hidden="true">
+                    <path d="M12 2L2 7v6c0 5 4 9 10 9s10-4 10-9V7L12 2z" fill="url(#gradient)" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7C4DFF" />
+                            <stop offset="100%" stop-color="#00D4FF" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div>
+                    <h1>SchedEase</h1>
+                    <p class="subtitle">Hello Student</p>
+                </div>
+            </div>
+            <div class="top-controls">
+                <div id="greeting" class="greeting">Good day 👋</div>
+            </div>
+        </header>
+
+        <main class="layout">
+            <aside class="sidebar glass">
+                <div class="sidebar-row">
+                    <button id="addTaskBtn" class="btn btn-primary full">+ New Task</button>
+                </div>
+
+                <div class="card stats">
+                    <div class="stat">
+                        <div class="num" id="totalTasks">0</div>
+                        <div class="label">Total</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num" id="completedTasks">0</div>
+                        <div class="label">Completed</div>
+                    </div>
+                    <div class="progress">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="card filters">
+                    <label class="field">
+                        <span>Category</span>
+                        <select id="filterCategory" class="select">
+                            <option value="all">All</option>
+                            <option>Assignment</option>
+                            <option>Exam</option>
+                            <option>Project</option>
+                            <option>Study</option>
+                        </select>
+                    </label>
+
+                    <label class="field">
+                        <span>Priority</span>
+                        <select id="filterPriority" class="select">
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </label>
+
+                    <div class="filter-actions">
+                        <button id="viewAllTasksBtn" class="btn btn-ghost full">All Tasks</button>
+                        <button id="taskHistoryBtn" class="btn btn-ghost full">History</button>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="main glass">
+                <div id="dashboardView" class="view">
+                    <div class="dash-head">
+                        <div>
+                            <h2>Upcoming</h2>
+                            <div id="currentDateTime" class="datetime">Loading...</div>
+                        </div>
+                        <div class="month-nav">
+                            <button id="prevMonthBtn" class="nav-btn" aria-label="Previous month">◀</button>
+                            <h3 id="currentMonthYear">Month Year</h3>
+                            <button id="nextMonthBtn" class="nav-btn" aria-label="Next month">▶</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-grid">
+                        <div class="card upcoming">
+                            <ul id="upcomingTasksList" class="tasks-list">
+                                <li class="empty">No upcoming tasks</li>
+                            </ul>
+                        </div>
+
+                        <div class="card calendar">
+                            <div class="weekdays">
+                                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+                                <div>Thu</div><div>Fri</div><div>Sat</div>
+                            </div>
+                            <div id="calendarGrid" class="calendar-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="allTasksView" class="view" style="display:none;">
+                    <div class="view-head">
+                        <h2>All Tasks</h2>
+                        <div class="search-row">
+                            <input id="searchTasks" class="input" placeholder="Search tasks..." />
+                            <button class="btn btn-primary" onclick="app.openModal('Add Task')">+ Add</button>
+                        </div>
+                    </div>
+                    <div id="allTasksContainer" class="tasks-grid"></div>
+                </div>
+
+                <div id="historyView" class="view" style="display:none;">
+                    <div class="view-head"><h2>Completed</h2></div>
+                    <div id="historyContainer" class="tasks-grid"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Task Modal -->
+        <div id="taskModal" class="modal" aria-hidden="true">
+            <div class="modal-panel glass">
+                <header class="modal-head">
+                    <h3 id="modalTitle">Add Task</h3>
+                    <button id="closeModalBtn" class="btn btn-ghost">✕</button>
+                </header>
+
+                <form id="taskForm" class="modal-body" autocomplete="off">
+                    <input id="taskId" type="hidden" />
+                    <label class="field"><span>Title *</span><input id="taskTitle" required /></label>
+                    <label class="field"><span>Description</span><textarea id="taskDescription" rows="3"></textarea></label>
+                    <div class="form-row">
+                        <label class="field"><span>Due</span><input id="taskDueDate" type="date" /></label>
+                        <label class="field"><span>Category</span>
+                            <select id="taskCategory">
+                                <option>Assignment</option><option>Exam</option><option>Project</option><option>Study</option>
+                            </select>
+                        </label>
+                        <label class="field"><span>Priority</span>
+                            <select id="taskPriority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </label>
+                    </div>
+                    <footer class="modal-foot">
+                        <button type="button" id="saveTaskBtn" class="btn btn-primary">Save</button>
+                        <button type="button" id="cancelBtn" class="btn btn-ghost">Cancel</button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
